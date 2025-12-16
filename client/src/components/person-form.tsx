@@ -22,7 +22,7 @@ export function PersonForm() {
     e.preventDefault();
     if (!fullName.trim()) return;
 
-    mutate({ fullName });
+    mutate({ fullName, role: "admin" });
     setFullName("");
   };
 

@@ -2,7 +2,6 @@ import { z } from "zod";
 import { publicProcedure, router } from "../config/trpc";
 import { Pollinations } from "../lib/pollinations";
 import { randomUUID } from "crypto";
-import { success } from "zod/v4";
 
 type Person = {
   id: string;
@@ -15,7 +14,7 @@ let people: Person[] = [];
 
 export const personRouter = router({
   create: publicProcedure
-    .input(z.object({ fullName: z.string() }))
+    .input(z.object({ fullName: z.string(), role: z.string() }))
     .mutation(async ({ input }) => {
       const { fullName } = input;
       const generatedAcronym = await Pollinations.generateAcronym(fullName);
@@ -39,4 +38,15 @@ export const personRouter = router({
       people,
     };
   }),
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      const { id } = input;
+
+      people = people.filter((p) => p.id != id);
+
+      return {
+        success: true,
+      };
+    }),
 });

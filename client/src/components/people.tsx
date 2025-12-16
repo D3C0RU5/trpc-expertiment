@@ -39,7 +39,7 @@ export const People = () => {
               {new Date(person.createdAt).toLocaleString()}
             </TableCell>
             <TableCell>
-              <DeleteButton />
+              <DeleteButton personId={person.id} />
             </TableCell>
           </TableRow>
         ))}
